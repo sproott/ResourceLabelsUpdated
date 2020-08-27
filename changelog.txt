@@ -1,0 +1,98 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.18.1
+Date: 12.06.2020
+  Changes:
+    - Added support for new Py updates, updated to 0.18
+---------------------------------------------------------------------------------------------------
+Version: 0.17.3
+Date: 12.06.2019
+  Changes:
+    - Added support for Cargo Ships Mod
+---------------------------------------------------------------------------------------------------
+Version: 0.17.2
+Date: 17.03.2019
+  Changes:
+    - Added support for Pyanondons Raw Ores Mod (1.1.16)
+---------------------------------------------------------------------------------------------------
+Version: 0.17.1
+Date: 14.03.2019
+  Changes:
+    - Updated to Factorio Version 0.17
+---------------------------------------------------------------------------------------------------
+Version: 0.16.10
+Date: 02.04.2018
+  Features:
+    - Added support for Pyanodons Coal Processing (1.0.5)
+    - Added support for Pyanodons HighTech (1.0.2)
+    - Updated support for Pyanodons Fusion Energy (1.0.2)
+    - Updated support for MadClown01's Extended AngelBob Minerals (1.0.6)
+---------------------------------------------------------------------------------------------------
+Version: 0.16.9
+Date: 09.03.2018
+  Features:
+    - Added support for DyWorld (0.6.2)
+    - Added support for PyCoal Touched By an Angel (0.0.8)
+---------------------------------------------------------------------------------------------------
+Version: 0.16.8
+Date: 08.03.2018
+  Features:
+    - Added support for MadClown01's Extended AngelBob Minerals (1.0.3)
+  Changes:
+    - Showing resource names now defaults to true (was false before)
+---------------------------------------------------------------------------------------------------
+Version: 0.16.7
+Date: 25.02.2018
+  Features:
+    - The "unknown resource entity" message can now be disabled
+    - Updated support Deep Core Mining mod (1.11.1)
+---------------------------------------------------------------------------------------------------
+Version: 0.16.6
+Date: 19.01.2018
+  Features:
+    - Added support for Ice Ore mod
+  Bugfixes:
+    - Fixed invalid icon for Deep Core Mining uranium patches
+---------------------------------------------------------------------------------------------------
+Version: 0.16.5
+Date: 18.01.2018
+  Features:
+    - Added support for Deep Core Mining mod (untested)
+    - Labels can now be disabled for certain resources in the config file (use hide("iron-ore") in the last section of the file)
+---------------------------------------------------------------------------------------------------
+Version: 0.16.4
+Date: 06.01.2018
+  Features:
+    - Added option to not generate labels for infinite ores
+    - Added option to not generate labels for ore patches with less or equal amount of ores
+    - Added option to not generate labels for ore patches of less or equal size
+  Changes:
+    - Mod settings are now cached whenever a player starts generating labels
+  Bugfixes:
+    - Removed debug message of version change
+---------------------------------------------------------------------------------------------------
+Version: 0.16.3
+Date: 25.12.2017
+  Features:
+    - Added support for Factorio DrugLab mod
+---------------------------------------------------------------------------------------------------
+Version: 0.16.2
+Date: 22.12.2017
+  Minor Features:
+    - Added update message
+  Changes:
+    - Previous labels are removed when the mod is updated and used in a savegame with an older version (sorry!)
+  Bugfixes:
+    - Creating labels after updating the mod no longer causes errors
+    - Saving and loading the game while labels are being generated no longer causes errors
+---------------------------------------------------------------------------------------------------
+Version: 0.16.1
+Date: 17.12.2017
+  Features:
+    - Added support for Alien Walls mod
+  Minor Features:
+    - Added documentation to the config file
+---------------------------------------------------------------------------------------------------
+Version: 0.16.0
+Date: 13.12.2017
+  Changes:
+    - Updated to Factorio 0.16
