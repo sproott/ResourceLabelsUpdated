@@ -183,8 +183,12 @@ function createLabelForResourcePatch(player, surface, patch)
                 return
             end
         else
-            --no label if the resource count is less than specified in the mod settings
+            --no label if the resource count is less than specified minimum in the mod settings
             if getResourceCount(patch) <= global.settings["resource-labels-minimum-resource-count"] then
+                return
+            end
+            --no label if the resource count is more than specified maximum in the mod settings
+            if getResourceCount(patch) >= global.settings["resource-labels-maximum-resource-count"] then
                 return
             end
         end
