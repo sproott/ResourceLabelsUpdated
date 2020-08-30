@@ -43,8 +43,16 @@ data:extend({
 		default_value = 0,
 		minimum_value = 0,
 		order = "aba"
-	},
-	{
+    }, 
+    {
+        type = "int-setting",
+        name = "resource-labels-maximum-resource-count",
+        setting_type = "runtime-global",
+        default_value = 1000000000,
+        minimum_value = 1,
+        order = "abaa"
+    }, 
+    {
 		type = "int-setting",
 		name = "resource-labels-minimum-resource-entity-count",
 		setting_type = "runtime-global",
@@ -58,5 +66,45 @@ data:extend({
 		setting_type = "runtime-global",
 		default_value = true,
 		order = "z"
+    },
+    {
+		type = "bool-setting",
+		name = "resource-labels-hide-oil",
+		setting_type = "runtime-global",
+		default_value = false,
+		order = "z1"
+	},
+	{
+		type = "bool-setting",
+		name = "resource-labels-hide-uranium",
+		setting_type = "runtime-global",
+		default_value = false,
+		order = "z2"
+	},
+	{
+		type = "bool-setting",
+		name = "resource-labels-hide-stone",
+		setting_type = "runtime-global",
+		default_value = false,
+		order = "z3"
+	},
+	{
+		type = "bool-setting",
+		name = "resource-labels-hide-coal",
+		setting_type = "runtime-global",
+		default_value = false,
+		order = "z4"
+	},	{
+		type = "bool-setting",
+		name = "resource-labels-hide-copper",
+		setting_type = "runtime-global",
+		default_value = false,
+		order = "z5"
+	},	{
+		type = "bool-setting",
+		name = "resource-labels-hide-iron",
+		setting_type = "runtime-global",
+		default_value = false,
+		order = "z6"
 	},
 })
