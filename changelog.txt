@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.4
+Date: 5.9.2020
+  Bugfixes:
+    - Fixed max ore count nil value error
+  Changes:
+    - Added support for Space Exploration and Krastorio 2
+---------------------------------------------------------------------------------------------------
 Version: 0.18.3
 Date: 30.08.2020
   Changes:

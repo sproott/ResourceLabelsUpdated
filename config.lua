@@ -1,3 +1,4 @@
+require("stdlib.utils.table")
 local ResourceConfig = {}
 
 -- Adds a label for a resource that has an item as mining result
@@ -31,6 +32,18 @@ end
 -- params: entity-name
 local function hide(baseResourceEntity)
     ResourceConfig[baseResourceEntity].enabled = false
+end
+
+local function generateSpaceExplorationFissures() 
+    if script.active_mods["space-exploration"] then
+        local fissures = {}
+        for resourceKey, resource in pairs(ResourceConfig) do
+            if not string.starts_with(resourceKey, "se-") then
+                fissures["se-core-fragment-" .. resourceKey] = { label=resource.label .. " fissure", type="item", icon="se-core-fragment-" .. resource.icon, enabled=resource.enabled }
+            end
+        end
+        ResouceConfig = table.merge(ResourceConfig, fissures, false)
+    end
 end
 
 -- examples:
@@ -124,6 +137,10 @@ addFluid("geothermal", "Geothermal Water", "geothermal-water")
 
 -- Ice Ore
 addItem ("ice-ore", "Ice", "ice-ore")
+
+-- Krastorio 2
+addItem("rare-metals", "Rare Metals", "rare-metals")
+addItem("imersite", "Imersite", "raw-imersite")
 
 -- MadClown01's Extended AngelBob Minerals
 addItem ("clowns-ore1", "Adamantite", "clowns-ore1")
@@ -271,5 +288,40 @@ addInfiniteItem("angels-ore6")
 
 -- Hide resources here
 -- hide("coal")
+
+--Add all resources BEFORE this, if you want to generate SE fissures for them (you generally do)
+
+generateSpaceExplorationFissures()
+
+-- Space Exploration
+addItem ("se-water-ice", "Water Ice", "se-water-ice")
+addItem ("se-methane-ice", "Methane Ice", "se-methane-ice")
+addItem ("se-beryllium-ore", "Beryllium", "se-beryllium-ore")
+addItem ("se-vitamelange", "Vitamelange", "se-vitamelange")
+addItem ("se-naquium-ore", "Naquium", "se-naquium-ore")
+addItem ("se-iridium-ore", "Iridium", "se-iridium-ore")
+addItem ("se-cryonite", "Cryonite", "se-cryonite")
+addItem ("se-holmium-ore", "Holmium", "se-holmium-ore")
+addItem ("se-vulcanite", "Vulcanite", "se-vulcanite")
+
+-- Space Exploration core fissure overrides
+addItem ("se-core-fragment-vulcanite", "Vulcanite fissure", "se-core-fragment-vulcanite")
+addItem ("se-core-fragment-beryllium-ore", "Beryllium fissure", "se-core-fragment-beryllium-ore")
+addItem ("se-core-fragment-iridium-ore", "Iridium fissure", "se-core-fragment-iridium-ore")
+addItem ("se-core-fragment-holmium-ore", "Holmium fissure", "se-core-fragment-holmium-ore")
+addItem ("se-core-fragment-vitamelange", "Vitamelange fissure", "se-core-fragment-vitamelange")
+addItem ("se-core-fragment-cryonite", "Cryonite fissure", "se-core-fragment-cryonite")
+addItem ("se-core-fragment-water-ice", "Water Ice fissure", "se-core-fragment-water-ice")
+addItem ("se-core-fragment-methane-ice", "Methane Ice fissure", "se-core-fragment-methane-ice")
+addItem ("se-core-fragment-naquium-ore", "Naquium fissure", "se-core-fragment-naquium-ore")
+
+addItem ("se-core-fragment-water", "Water fissure", "se-core-fragment-water")
+addItem ("se-core-fragment-crude-oil", "Oil fissure", "se-core-fragment-crude-oil")
+addItem ("se-core-fragment-imersite", "Imersite fissure", "se-core-fragment-imersite")
+addItem ("se-core-fragment-omni", "Omni fissure", "se-core-fragment-omni")
+
+-- for resourceKey, resource in pairs(ResourceConfig) do
+--     log("Resource key=" .. resourceKey .. ", label=" .. resource.label .. ", icon=" .. resource.icon .. ", enabled=" .. tostring(resource.enabled))
+-- end
 
 return ResourceConfig
