@@ -21,9 +21,11 @@ end
 -- params: entity-name
 local function addInfiniteItem(baseResourceEntity)
     local base = ResourceConfig[baseResourceEntity]
-    local infiniteEntity = "infinite-" .. baseResourceEntity
-    local infiniteLabel = "Infinite " .. base.label
-    local infiniteIcon = base.icon
+    if base ~= nil then
+        local infiniteEntity = "infinite-" .. baseResourceEntity
+        local infiniteLabel = "Infinite " .. base.label
+        local infiniteIcon = base.icon
+    end
 
     ResourceConfig[infiniteEntity] = {label=infiniteLabel, type="item", icon=infiniteIcon, enabled=true}
 end
@@ -365,7 +367,7 @@ if script.active_mods["space-exploration"] then
     addItem ("se-core-fragment-naquium-ore", "Naquium fissure", "se-core-fragment-naquium-ore")
 
     addItem ("se-core-fragment-water", "Water fissure", "se-core-fragment-water")
-    addItem ("se-core-fragment-crude-oil", "Oil fissure", "se-core-fragment-crude-oil")
+    addItem ("se-core-fragment-crude-oil", "Oil fissure", "se-core-fragment-crude-oil") -- TODO should be possible to remove
     addItem ("se-core-fragment-imersite", "Imersite fissure", "se-core-fragment-imersite")
     addItem ("se-core-fragment-omni", "Omni fissure", "se-core-fragment-omni")
 end
