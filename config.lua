@@ -324,15 +324,20 @@ if script.active_mods["angelsinfiniteores"] then
     addInfiniteItem("silver-ore")
     addInfiniteItem("sulfur")
     addInfiniteItem("tungsten-ore")
-    addInfiniteItem("y-res1")
-    addInfiniteItem("y-res2")
-    addInfiniteItem("tenemut")
     addInfiniteItem("angels-ore1")
     addInfiniteItem("angels-ore2")
     addInfiniteItem("angels-ore3")
     addInfiniteItem("angels-ore4")
     addInfiniteItem("angels-ore5")
     addInfiniteItem("angels-ore6")
+	
+	if script.active_mods["Yuoki"] then
+		addInfiniteItem("y-res1")
+		addInfiniteItem("y-res2")
+	end
+	if script.active_mods["dark-matter-replicators-18"] then
+		addInfiniteItem("tenemut")
+	end
 end
 
 
