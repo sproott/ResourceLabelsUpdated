@@ -1,11 +1,16 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.6
+Date: 06.09.2020
+  Bugfixes:
+    - Check for nil value in addInfiniteOre function
+---------------------------------------------------------------------------------------------------
 Version: 0.18.5
-Date: 6.9.2020
+Date: 06.09.2020
   Optimisations:
     - Added checking for running mods
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.4
-Date: 5.9.2020
+Date: 05.09.2020
   Bugfixes:
     - Fixed max ore count nil value error
   Changes:
