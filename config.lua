@@ -25,9 +25,8 @@ local function addInfiniteItem(baseResourceEntity)
         local infiniteEntity = "infinite-" .. baseResourceEntity
         local infiniteLabel = "Infinite " .. base.label
         local infiniteIcon = base.icon
+        ResourceConfig[infiniteEntity] = {label=infiniteLabel, type="item", icon=infiniteIcon, enabled=true}
     end
-
-    ResourceConfig[infiniteEntity] = {label=infiniteLabel, type="item", icon=infiniteIcon, enabled=true}
 end
 
 -- Hides a previously defined resource
