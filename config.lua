@@ -38,9 +38,7 @@ end
 local function generateSpaceExplorationFissures()
     local fissures = {}
     for resourceKey, resource in pairs(ResourceConfig) do
-        if not string.starts_with(resourceKey, "se-") then
-            fissures["se-core-fragment-" .. resourceKey] = {label = resource.label .. " fissure", type = "item", icon = "se-core-fragment-" .. resource.icon, enabled = resource.enabled}
-        end
+        fissures["se-core-fragment-" .. resourceKey] = {label = resource.label .. " fissure", type = "item", icon = "se-core-fragment-" .. resource.icon, enabled = resource.enabled}
     end
     ResouceConfig = table.merge(ResourceConfig, fissures, false)
 end
@@ -342,7 +340,6 @@ end
 -- hide("coal")
 --Add all resources BEFORE this, if you want to generate SE fissures for them (you generally do)
 if script.active_mods["space-exploration"] then
-    generateSpaceExplorationFissures()
     
     -- Space Exploration
     addItem("se-water-ice", "Water Ice", "se-water-ice")
@@ -354,22 +351,9 @@ if script.active_mods["space-exploration"] then
     addItem("se-cryonite", "Cryonite", "se-cryonite")
     addItem("se-holmium-ore", "Holmium", "se-holmium-ore")
     addItem("se-vulcanite", "Vulcanite", "se-vulcanite")
-    
-    -- Space Exploration core fissure overrides
-    addItem("se-core-fragment-vulcanite", "Vulcanite fissure", "se-core-fragment-vulcanite")
-    addItem("se-core-fragment-beryllium-ore", "Beryllium fissure", "se-core-fragment-beryllium-ore")
-    addItem("se-core-fragment-iridium-ore", "Iridium fissure", "se-core-fragment-iridium-ore")
-    addItem("se-core-fragment-holmium-ore", "Holmium fissure", "se-core-fragment-holmium-ore")
-    addItem("se-core-fragment-vitamelange", "Vitamelange fissure", "se-core-fragment-vitamelange")
-    addItem("se-core-fragment-cryonite", "Cryonite fissure", "se-core-fragment-cryonite")
-    addItem("se-core-fragment-water-ice", "Water Ice fissure", "se-core-fragment-water-ice")
-    addItem("se-core-fragment-methane-ice", "Methane Ice fissure", "se-core-fragment-methane-ice")
-    addItem("se-core-fragment-naquium-ore", "Naquium fissure", "se-core-fragment-naquium-ore")
-    
-    addItem("se-core-fragment-water", "Water fissure", "se-core-fragment-water")
-    addItem("se-core-fragment-crude-oil", "Oil fissure", "se-core-fragment-crude-oil")-- TODO should be possible to remove
-    addItem("se-core-fragment-imersite", "Imersite fissure", "se-core-fragment-imersite")
-    addItem("se-core-fragment-omni", "Omni fissure", "se-core-fragment-omni")
+
+    -- Space Exploration fissures
+    generateSpaceExplorationFissures()
 end
 
 -- for resourceKey, resource in pairs(ResourceConfig) do
