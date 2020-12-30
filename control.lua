@@ -207,6 +207,9 @@ function createLabelForResourcePatch(player, surface, patch)
         if global.settings["resource-labels-show-labels"] then
             label = label .. getLabel(entity)
         end
+        if not global.settings["resource-labels-show-icons"] then
+          signalID = nil
+        end
         local chartTag = {}
         chartTag = {position = centerPosition, icon = signalID, text = label}
         
@@ -369,6 +372,7 @@ function cacheSettings()
     local settings = {}
     cacheSetting(settings, "resource-labels-schedule-interval")
     cacheSetting(settings, "resource-labels-show-labels")
+    cacheSetting(settings, "resource-labels-show-icons")
     cacheSetting(settings, "resource-labels-cooldown")
     cacheSetting(settings, "resource-labels-show-resource-count")
     cacheSetting(settings, "resource-labels-show-infinite-ores")
