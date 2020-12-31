@@ -194,7 +194,8 @@ function createLabelForResourcePatch(player, surface, patch)
         local label = ""
         if global.settings["resource-labels-show-resource-count"] then
             --show yield only for non fluid infinite ores
-            if isInfiniteResource(entity) and ResourceConfig[entity.name].type ~= "fluid" then
+            local resourceConf = ResourceConfig[entity.name]
+            if isInfiniteResource(entity) and resourceConf and resourceConf.type ~= "fluid" then
                 label = label .. getResourceCount(patch) .. "% "
             else
                 if getLabel(entity):find("Rock") then
