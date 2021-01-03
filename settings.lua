@@ -22,6 +22,13 @@ data:extend({
         order = "aab"
     },
     {
+        type = "bool-setting",
+        name = "resource-labels-use-old-algorithm",
+        setting_type = "runtime-global",
+        default_value = false,
+        order = "aac"
+    },
+    {
         type = "int-setting",
         name = "resource-labels-cooldown",
         setting_type = "runtime-global",

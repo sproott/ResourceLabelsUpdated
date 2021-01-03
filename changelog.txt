@@ -1,8 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.3
 Date: 03.01.2021
+  Optimisations:
+    - Implement faster labeling algorithm
   Changes:
-    - Fix unknown resource logic
+    - Change unknown resource logic
   Bugfixes:
     - Fix for VtK Deep Core Mining
 ---------------------------------------------------------------------------------------------------

@@ -22,13 +22,27 @@ local SIunits =
         [5] = "P",
         [6] = "E"
     }
-
+function reinitialize()
+    global.chunksToLabel = {}
+    global.knownPositions = {}
+    global.isLabeling = {}
+    global.settings = {}
+    removeLabelsAfterChange()
+end
 Event.register(Event.core_events.init,
     function()
         global.chunksToLabel = {}
+        global.knownPositions = {}
         global.labeledResourcePatches = {}
         global.isLabeling = {}
         global.settings = {}
+    end
+)
+Event.register(defines.events.on_runtime_mod_setting_changed,
+    function(event)
+        if event.setting == "resource-labels-use-old-algorithm" then
+            reinitialize()
+        end
     end
 )
 Event.register(Event.core_events.configuration_changed,
@@ -43,10 +57,7 @@ Event.register(Event.core_events.configuration_changed,
             end
             
             -- if the mod is updated while the labeling process was running, cancel the process by clearing the schedule table
-            global.chunksToLabel = {}
-            global.isLabeling = {}
-            global.settings = {}
-            removeLabelsOnModUpdate()
+            reinitialize()
         end
     end
 )
@@ -57,23 +68,18 @@ Event.register("resource-labels-add",
         
         local player = Game.get_player(event.player_index)
         local force = player.force
-        
         local cooldown = global.settings["resource-labels-cooldown"]
-        
         if not global.isLabeling[force.name] then
             global.isLabeling[force.name] = {}
             global.isLabeling[force.name]["stop"] = -cooldown
             global.isLabeling[force.name]["initiator"] = ""
         end
-        
         local stop = global.isLabeling[force.name].stop
         if stop + cooldown <= event.tick then
             local surface = player.surface
             local force = player.force
-            
             local scheduledTick = game.tick
             local scheduleInterval = global.settings["resource-labels-schedule-interval"]
-            
             for chunk in surface.get_chunks() do
                 if force.is_chunk_charted(surface, chunk) and surface.count_entities_filtered{area = Chunk.to_area(chunk), type = "resource"} > 0 then
                     scheduledTick = scheduledTick + scheduleInterval
@@ -94,40 +100,75 @@ function scheduleLabelingForChunk(scheduledTick, player, surface, chunk)
     if not global.chunksToLabel[scheduledTick] then
         global.chunksToLabel[scheduledTick] = {}
     end
-    
-    local chunkArea = Chunk.to_area(chunk)
-    table.insert(global.chunksToLabel[scheduledTick], {player, surface, stdlibAreaToFactorioArea(Chunk.to_area(chunk))})
+    global.knownPositions[player.force.name] = {}
+    table.insert(global.chunksToLabel[scheduledTick], {player = player, surface = surface, area = stdlibAreaToFactorioArea(Chunk.to_area(chunk))})
 end
 
 Event.register(defines.events.on_tick,
     function(event)
         if global.chunksToLabel[event.tick] ~= nil then
-            table.each(global.chunksToLabel[event.tick], function(data)
-                labelResourcesInArea(unpack(data))
-            end)
+            if global.settings["resource-labels-use-old-algorithm"] then
+                table.each(global.chunksToLabel[event.tick], function(data)
+                    labelResourcesInAreaOld(data.player, data.surface, data.area)
+                end)
+            else
+                table.each(global.chunksToLabel[event.tick], function(data)
+                    local knownPositions = global.knownPositions[data.player.force.name]
+                    labelResourcesInArea(data.player, data.surface, data.area, knownPositions)
+                end)
+            end
             
             global.chunksToLabel[event.tick] = nil
         end
     end
 )
-function labelResourcesInArea(player, surface, area)
-    local surface = player.surface
+function labelResourcesInAreaOld(player, surface, area)
     local resources = surface.find_entities_filtered{area = area, type = "resource"}
-    
     if #resources > 0 then
         local resourceTypes = Resource.get_resource_types(resources)
         for _, type in pairs(resourceTypes) do
             local resourcesFiltered = Resource.filter_resources(resources, {type})
-            
             local entity = table.first(resourcesFiltered)
-            
             if labelIsEnabled(entity) then
                 local patch = Resource.get_resource_patch_at(surface, entity.position, type)
-                
                 createLabelForResourcePatch(player, surface, patch)
             end
         end
     end
+end
+
+function labelResourcesInArea(player, surface, area, knownPositions)
+    local resources = surface.find_entities_filtered{area = area, type = "resource"}
+    table.each(resources, function(resource)
+        if not knownPositions[Position.to_string_xy(resource.position)] then
+            labelResourcesOnPosition(player, surface, resource.position, knownPositions)
+        end
+    end)
+end
+
+function labelResourcesOnPosition(player, surface, position, knownPositions)
+    local resources = Resource.get_resource_patches_at(surface, position)
+    local collapsedResources = collapseMultitileResources(resources)
+    table.each(collapsedResources, function(resource)
+        table.each(resource, function(entity)knownPositions[Position.to_string_xy(entity.position)] = true end)
+        createLabelForResourcePatch(player, surface, resource)
+    end)
+end
+
+function collapseMultitileResources(resources)
+    local filteredResources = {}
+    for key, patch in pairs(resources) do
+        local filteredPatch = {}
+        local knownPositions = {}
+        for _, entity in pairs(patch) do
+            if not knownPositions[entity.position] then
+                table.insert(filteredPatch, entity)
+                knownPositions[Position.to_string_xy(entity.position)] = true
+            end
+        end
+        filteredResources[key] = filteredPatch
+    end
+    return filteredResources
 end
 
 function labelIsEnabled(entity)
@@ -253,11 +294,13 @@ function isAlreadyLabeled(force, surface, patch)
     if not labelData then
         return false
     end
+    if not global.settings["resource-labels-use-old-algorithm"] then
+        return false
+    end
     
     local bounds = Resource.get_resource_patch_bounds(patch)
     local centerPosition = Area.center(bounds)
     local type = table.first(patch).name
-    
     return table.find(labelData, function(labeledResourceData)
         return labeledResourceData.surface.name == surface.name and labeledResourceData.type == type and Position.inside(centerPosition, labeledResourceData.bounds)
     end)
@@ -364,7 +407,7 @@ function removeLabelsUnconditionally(force)
     end
 end
 
-function removeLabelsOnModUpdate()
+function removeLabelsAfterChange()
     for forceName, _ in pairs(global.labeledResourcePatches) do
         removeLabelsUnconditionally(game.forces[forceName])
     end
@@ -393,6 +436,7 @@ function cacheSettings()
     cacheSetting(settings, "resource-labels-hide-iron")
     cacheSetting(settings, "resource-labels-hide-copper")
     cacheSetting(settings, "resource-labels-hide-uranium")
+    cacheSetting(settings, "resource-labels-use-old-algorithm")
     global.settings = settings
 end
 
