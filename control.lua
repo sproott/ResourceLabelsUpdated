@@ -150,6 +150,13 @@ function createLabelForResourcePatch(player, surface, patch)
         local entity = table.first(patch)
         local signalID = getSignalID(entity)
         
+        if ResourceConfig[entity.name] == nil then
+            if global.settings["resource-labels-show-unknown-entity-msg"] then
+                player.print{"resource-labels-unknown-resource-entity-msg", entity.name, MOD.title}
+            end
+            return
+        end
+        
         --no label for resource patches with these entities disabled
         if getLabel(entity) == "Stone" and global.settings["resource-labels-hide-stone"] then
             return
@@ -194,8 +201,12 @@ function createLabelForResourcePatch(player, surface, patch)
         local label = ""
         if global.settings["resource-labels-show-resource-count"] then
             --show yield only for non fluid infinite ores
-            if isInfiniteResource(entity) and ResourceConfig[entity.name].type ~= "fluid" then
-                label = label .. getResourceCount(patch) .. "% "
+            if isInfiniteResource(entity) then
+                if ResourceConfig[entity.name].type ~= "fluid" then
+                    label = label .. getResourceCount(patch) .. "% "
+                else
+                    label = ""
+                end
             else
                 if getLabel(entity):find("Rock") then
                     label = label .. numberToSiString(entity.amount) .. " "
@@ -208,7 +219,7 @@ function createLabelForResourcePatch(player, surface, patch)
             label = label .. getLabel(entity)
         end
         if not global.settings["resource-labels-show-icons"] then
-          signalID = nil
+            signalID = nil
         end
         local chartTag = {}
         chartTag = {position = centerPosition, icon = signalID, text = label}
@@ -221,11 +232,7 @@ function createLabelForResourcePatch(player, surface, patch)
             return force.add_chart_tag(surface, chartTag)
         end)
         
-        if not success and global.settings["resource-labels-show-unknown-entity-msg"] then
-            player.print{"resource-labels-unknown-resource-entity-msg", entity.name, MOD.title}
-        end
-        
-        if addedChartTag and type(addedChartTag) ~= "string" then
+        if success and addedChartTag and type(addedChartTag) ~= "string" then
             addedChartTag.last_user = player
             
             local labeledResourceData = {

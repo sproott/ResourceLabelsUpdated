@@ -2,30 +2,32 @@ local table = require("__stdlib__/stdlib/utils/table")
 local ResourceConfig = {}
 
 -- Adds a label for a resource that has an item as mining result
--- params: entity-name, label, item-name
-local function addItem(resourceEntity, label, icon)
-    ResourceConfig[resourceEntity] = {label = label, type = "item", icon = icon, enabled = true}
+-- params: entity-name, label, item-name, enabled (optional, default true)
+local function addItem(resourceEntity, label, icon, enabled)
+    ResourceConfig[resourceEntity] = {label = label, type = "item", icon = icon, enabled = enabled or true}
 end
 
 -- Adds a label for a resource that has a fluid as mining result
--- params: entity-name, label, fluid-name
-local function addFluid(resourceEntity, label, icon)
-    ResourceConfig[resourceEntity] = {label = label, type = "fluid", icon = icon, enabled = true}
+-- params: entity-name, label, fluid-name, enabled (optional, default true)
+local function addFluid(resourceEntity, label, icon, enabled)
+    ResourceConfig[resourceEntity] = {label = label, type = "fluid", icon = icon, enabled = enabled or true}
 end
 
-local function addRock(resourceEntity, label, icon)
-    ResourceConfig[resourceEntity] = {label = label, type = "item", icon = icon, enabled = true}
+-- Adds a label for a resource that is a rock
+-- params: entity-name, label, fluid-name, enabled (optional, default true)
+local function addRock(resourceEntity, label, icon, enabled)
+    ResourceConfig[resourceEntity] = {label = label, type = "item", icon = icon, enabled = enabled or true}
 end
 
 -- Adds an infinite version of an ore, note that the regular ore must be added first using addItem!
--- params: entity-name
-local function addInfiniteItem(baseResourceEntity)
+-- params: entity-name, enabled (optional, default true)
+local function addInfiniteItem(baseResourceEntity, enabled)
     local base = ResourceConfig[baseResourceEntity]
     if base ~= nil then
         local infiniteEntity = "infinite-" .. baseResourceEntity
         local infiniteLabel = "Infinite " .. base.label
         local infiniteIcon = base.icon
-        ResourceConfig[infiniteEntity] = {label = infiniteLabel, type = "item", icon = infiniteIcon, enabled = true}
+        ResourceConfig[infiniteEntity] = {label = infiniteLabel, type = "item", icon = infiniteIcon, enabled = enabled or true}
     end
 end
 
@@ -123,6 +125,19 @@ if script.active_mods["vtk-deep-core-mining"] then
     addItem("angels-ore4-patch", "Crotinnium (Deep)", "vtk-deepcore-mining-angels-ore4-chunk")
     addItem("angels-ore5-patch", "Rubyte (Deep)", "vtk-deepcore-mining-angels-ore5-chunk")
     addItem("angels-ore6-patch", "Bobmonium (Deep)", "vtk-deepcore-mining-angels-ore6-chunk")
+
+    addItem("copper-ore-patch-ore", "Copper (Deep)", "vtk-deepcore-mining-copper-ore-chunk", false)
+    addItem("iron-ore-patch-ore", "Iron (Deep)", "vtk-deepcore-mining-iron-ore-chunk", false)
+    addItem("coal-patch-ore", "Coal (Deep)", "vtk-deepcore-mining-coal-chunk", false)
+    addItem("stone-patch-ore", "Stone (Deep)", "vtk-deepcore-mining-stone-chunk", false)
+    addItem("uranium-ore-patch-ore", "Uranium (Deep)", "vtk-deepcore-mining-uranium-ore-chunk", false)
+    addItem("vtk-deepcore-mining-crack-ore", "Deep Core Crack", "vtk-deepcore-mining-ore-chunk", false)
+    addItem("angels-ore1-patch-ore", "Saphirite (Deep)", "vtk-deepcore-mining-angels-ore1-chunk", false)
+    addItem("angels-ore2-patch-ore", "Jivolite (Deep)", "vtk-deepcore-mining-angels-ore2-chunk", false)
+    addItem("angels-ore3-patch-ore", "Stiratite (Deep)", "vtk-deepcore-mining-angels-ore3-chunk", false)
+    addItem("angels-ore4-patch-ore", "Crotinnium (Deep)", "vtk-deepcore-mining-angels-ore4-chunk", false)
+    addItem("angels-ore5-patch-ore", "Rubyte (Deep)", "vtk-deepcore-mining-angels-ore5-chunk", false)
+    addItem("angels-ore6-patch-ore", "Bobmonium (Deep)", "vtk-deepcore-mining-angels-ore6-chunk", false)
 end
 
 -- DyWorld
