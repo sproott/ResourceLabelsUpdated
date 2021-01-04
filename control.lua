@@ -10,7 +10,7 @@ local ResourceConfig = require('config')
 
 local MOD = {}
 MOD.title = "Resource Labels"
-MOD.name = "ResourceLabels"
+MOD.name = "ResourceLabelsUpdated"
 
 local SIunits =
     {
