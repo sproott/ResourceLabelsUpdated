@@ -148,6 +148,7 @@ end
 
 function labelResourcesOnPosition(player, surface, position, knownPositions)
     local resources = Resource.get_resource_patches_at(surface, position)
+    table.filter(resources, function(resource) return labelIsEnabled(table.first(resource)) end)
     local collapsedResources = collapseMultitileResources(resources)
     table.each(collapsedResources, function(resource)
         table.each(resource, function(entity)knownPositions[Position.to_string_xy(entity.position)] = true end)
@@ -161,7 +162,7 @@ function collapseMultitileResources(resources)
         local filteredPatch = {}
         local knownPositions = {}
         for _, entity in pairs(patch) do
-            if not knownPositions[entity.position] then
+            if not knownPositions[Position.to_string_xy(entity.position)] then
                 table.insert(filteredPatch, entity)
                 knownPositions[Position.to_string_xy(entity.position)] = true
             end

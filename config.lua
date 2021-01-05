@@ -232,7 +232,10 @@ end
 
 -- Pyanodon's Petroleum Handling
 if script.active_mods["pypetroleumhandling"] then
-    addItem("natural-gas", "Natural Gas", "natural-gas")
+    addFluid("natural-gas-1", "Small Natural Gas", "natural-gas")
+    addFluid("natural-gas-2", "Medium Natural Gas", "natural-gas")
+    addFluid("natural-gas-3", "Big Natural Gas", "natural-gas")
+    addFluid("natural-gas-4", "Massive Natural Gas", "natural-gas")
     addFluid("oil-mk01", "Small Oil Patch", "crude-oil")
     addFluid("oil-mk02", "Medium Oil Patch", "crude-oil")
     addFluid("oil-mk03", "Big Oil Patch", "crude-oil")
@@ -240,6 +243,7 @@ if script.active_mods["pypetroleumhandling"] then
     addItem("oil-sand", "Oil Sand", "oil-sand")
     addItem("sulfur-patch", "Sulfur", "sulfur")
     addFluid("tar-patch", "Tar", "tar")
+    addFluid("bitumen-seep", "Bitumen Seep", "drilling-waste")
 end
 
 -- Pyanodon's Raw Ores - Ores
