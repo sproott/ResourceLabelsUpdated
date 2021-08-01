@@ -4,19 +4,34 @@ local ResourceConfig = {}
 -- Adds a label for a resource that has an item as mining result
 -- params: entity-name, label, item-name, enabled (optional, default true)
 local function addItem(resourceEntity, label, icon, enabled)
-    ResourceConfig[resourceEntity] = {label = label, type = "item", icon = icon, enabled = enabled or true}
+    ResourceConfig[resourceEntity] = {
+        label = label,
+        type = "item",
+        icon = icon,
+        enabled = enabled or true
+    }
 end
 
 -- Adds a label for a resource that has a fluid as mining result
 -- params: entity-name, label, fluid-name, enabled (optional, default true)
 local function addFluid(resourceEntity, label, icon, enabled)
-    ResourceConfig[resourceEntity] = {label = label, type = "fluid", icon = icon, enabled = enabled or true}
+    ResourceConfig[resourceEntity] = {
+        label = label,
+        type = "fluid",
+        icon = icon,
+        enabled = enabled or true
+    }
 end
 
 -- Adds a label for a resource that is a rock
 -- params: entity-name, label, fluid-name, enabled (optional, default true)
 local function addRock(resourceEntity, label, icon, enabled)
-    ResourceConfig[resourceEntity] = {label = label, type = "item", icon = icon, enabled = enabled or true}
+    ResourceConfig[resourceEntity] = {
+        label = label,
+        type = "item",
+        icon = icon,
+        enabled = enabled or true
+    }
 end
 
 -- Adds an infinite version of an ore, note that the regular ore must be added first using addItem!
@@ -27,7 +42,12 @@ local function addInfiniteItem(baseResourceEntity, enabled)
         local infiniteEntity = "infinite-" .. baseResourceEntity
         local infiniteLabel = "Infinite " .. base.label
         local infiniteIcon = base.icon
-        ResourceConfig[infiniteEntity] = {label = infiniteLabel, type = "item", icon = infiniteIcon, enabled = enabled or true}
+        ResourceConfig[infiniteEntity] = {
+            label = infiniteLabel,
+            type = "item",
+            icon = infiniteIcon,
+            enabled = enabled or true
+        }
     end
 end
 
@@ -40,7 +60,12 @@ end
 local function generateSpaceExplorationFissures()
     local fissures = {}
     for resourceKey, resource in pairs(ResourceConfig) do
-        fissures["se-core-fragment-" .. resourceKey] = {label = resource.label .. " fissure", type = "item", icon = "se-core-fragment-" .. resource.icon, enabled = resource.enabled}
+        fissures["se-core-fragment-" .. resourceKey] = {
+            label = resource.label .. " fissure",
+            type = "item",
+            icon = "se-core-fragment-" .. resource.icon,
+            enabled = resource.enabled
+        }
     end
     ResouceConfig = table.merge(ResourceConfig, fissures, false)
 end
@@ -52,7 +77,8 @@ end
 -- 2)
 -- hide("coal")
 -- Coal will no longer be shown on the map.
---Vanilla
+
+-- Vanilla
 addItem("coal", "Coal", "coal")
 addItem("iron-ore", "Iron", "iron-ore")
 addItem("copper-ore", "Copper", "copper-ore")
@@ -86,7 +112,7 @@ if script.active_mods["angelspetrochem"] then
     addFluid("angels-natural-gas", "Natural Gas", "gas-natural-1")
 end
 
---Bob's Ores
+-- Bob's Ores
 if script.active_mods["bobores"] then
     addItem("gold-ore", "Gold", "gold-ore")
     addItem("lead-ore", "Lead", "lead-ore")
@@ -104,6 +130,23 @@ if script.active_mods["bobores"] then
     addItem("thorium-ore", "Thorium", "thorium-ore")
     addFluid("ground-water", "Water", "water")
     addFluid("lithia-water", "Lithia Water", "lithia-water")
+end
+
+-- brevven mods
+if script.active_mods["bztungsten"] then
+    addItem("tungsten-ore", "Wolframite", "tungsten-ore")
+end
+
+if script.active_mods["bztitanium"] then
+    addItem("titanium-ore", "Titanium", "titanium-ore")
+end
+
+if script.active_mods["bzlead"] then
+    addItem("lead-ore", "Lead", "lead-ore")
+end
+
+if script.active_mods["bzzirconium"] then
+    addItem("zircon", "Zircon", "zircon")
 end
 
 -- Dark Matter Replicators
@@ -142,15 +185,15 @@ end
 
 -- DyWorld
 if script.active_mods["DyWorld"] then
-    -- addItem ("gold-ore", "Gold", "gold-ore") <- covered by Bobs
-    -- addItem ("tin-ore", "Tin", "tin-ore") <- covered by Bobs
-    -- addItem ("silver-ore", "Silver", "silver-ore") <- covered by Bobs
+    addItem("gold-ore", "Gold", "gold-ore")
+    addItem("tin-ore", "Tin", "tin-ore")
+    addItem("silver-ore", "Silver", "silver-ore")
     addItem("chromium-ore", "Chromium", "chromium-ore")
-    -- addItem ("lead-ore", "Lead", "lead-ore") <- covered by Bobs
-    -- addItem ("tungsten-ore", "Tungsten", "tungsten-ore") <- covered by Bobs
-    -- addItem ("zinc-ore", "Zinc", "zinc-ore") <- covered by Bobs
+    addItem("lead-ore", "Lead", "lead-ore")
+    addItem("tungsten-ore", "Tungsten", "tungsten-ore")
+    addItem("zinc-ore", "Zinc", "zinc-ore")
     addItem("aluminium-ore", "Aluminium", "aluminium-ore")
--- addItem ("nickel-ore", "Nickel", "nickel-ore") <- covered by Bobs
+    addItem("nickel-ore", "Nickel", "nickel-ore")
 end
 
 -- DrugLab
@@ -192,7 +235,7 @@ if script.active_mods["Clowns-Extended-Minerals"] then
     addItem("clowns-resource1", "Alluvium", "clowns-resource1")
     addItem("clowns-resource2", "Oil Sand", "clowns-resource2")
     addItem("clowns-resource3", "Crystal", "gem-ore")
-    
+
     addInfiniteItem("clowns-ore1")
     addInfiniteItem("clowns-ore2")
     addInfiniteItem("clowns-ore3")
@@ -257,7 +300,7 @@ if script.active_mods["pyrawores"] then
     addItem("ore-tin", "Tin", "ore-tin")
     addItem("ore-titanium", "Titanium", "ore-titanium")
     addItem("ore-zinc", "Zinc", "ore-zinc")
-    
+
     -- Pyanodon's Raw Ores - Rocks
     addRock("aluminium-rock", "Aluminium Rock", "ore-aluminium")
     addRock("chromium-rock", "Chromium Rock", "ore-chromium")
@@ -302,14 +345,14 @@ if script.active_mods["xander-mod"] then
     addItem("garnierite", "Garnierite", "garnierite")
     addItem("granitic", "Granite", "granitic-ore")
     addItem("heavy-sand", "Heavy Sand", "heavy-sand")
-    --addItem ("lead-ore", "Lead", "lead-ore") <- covered by Bobs
+    -- addItem ("lead-ore", "Lead", "lead-ore") <- covered by Bobs
     addFluid("mineral-water", "Mineral Water", "mineral-water")
     addFluid("natural-gas", "Natural Gas", "natural-gas")
     addItem("sulfidic-ore", "Sulfidic", "sulfidic-ore")
---addItem ("copper-ore", "Copper", "copper-ore") <- covered by Vanilla
---addFluid("crude-oil", "Oil", "crude-oil") <- covered by Vanilla
---addItem ("iron-ore", "Iron", "iron-ore") <- covered by Vanilla
---addItem ("uranium-ore", "Pitchblende", "uranium-ore") <- covered by Vanilla under different name
+    -- addItem ("copper-ore", "Copper", "copper-ore") <- covered by Vanilla
+    -- addFluid("crude-oil", "Oil", "crude-oil") <- covered by Vanilla
+    -- addItem ("iron-ore", "Iron", "iron-ore") <- covered by Vanilla
+    -- addItem ("uranium-ore", "Pitchblende", "uranium-ore") <- covered by Vanilla under different name
 end
 
 -- Yuoki Industries
@@ -344,7 +387,7 @@ if script.active_mods["angelsinfiniteores"] then
     addInfiniteItem("angels-ore4")
     addInfiniteItem("angels-ore5")
     addInfiniteItem("angels-ore6")
-    
+
     if script.active_mods["Yuoki"] then
         addInfiniteItem("y-res1")
         addInfiniteItem("y-res2")
@@ -354,12 +397,11 @@ if script.active_mods["angelsinfiniteores"] then
     end
 end
 
-
 -- Hide resources here
 -- hide("coal")
---Add all resources BEFORE this, if you want to generate SE fissures for them (you generally do)
+-- Add all resources BEFORE this, if you want to generate SE fissures for them (you generally do)
 if script.active_mods["space-exploration"] then
-    
+
     -- Space Exploration
     addItem("se-water-ice", "Water Ice", "se-water-ice")
     addItem("se-methane-ice", "Methane Ice", "se-methane-ice")
