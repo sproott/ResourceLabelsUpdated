@@ -351,7 +351,7 @@ function createLabelForResourcePatch(player, surface, patch)
         label = addedChartTag
       }
 
-      addLabeledResourceData(force, labeledResourceData)
+      addLabeledResourceData(force, surface, labeledResourceData)
     end
   end
 end
@@ -438,12 +438,16 @@ function getLabel(entity)
   return label
 end
 
-function addLabeledResourceData(force, labeledResourceData)
+function addLabeledResourceData(force, surface, labeledResourceData)
   if not global.labeledResourcePatches[force.name] then
     global.labeledResourcePatches[force.name] = {}
   end
 
-  table.insert(global.labeledResourcePatches[force.name], labeledResourceData)
+  if not global.labeledResourcePatches[force.name][surface.name] then
+    global.labeledResourcePatches[force.name][surface.name] = {}
+  end
+
+  table.insert(global.labeledResourcePatches[force.name][surface.name], labeledResourceData)
 end
 
 Event.register(
@@ -456,6 +460,7 @@ Event.register(
     removeLabels(currentTick, player)
   end
 )
+
 function removeLabels(currentTick, player)
   local force = player.force
 
@@ -466,31 +471,38 @@ function removeLabels(currentTick, player)
       local initiator = isLabeling.initiator
       player.print {'resource-labels-remove-but-not-finished-msg', initiator, isLabeling.stop - currentTick}
     else
-      removeLabelsUnconditionally(force)
+      removeLabelsUnconditionally(force.name, player.surface.name)
     end
   end
 end
 
-function removeLabelsUnconditionally(force)
-  local labelData = global.labeledResourcePatches[force.name]
-  if labelData then
-    table.each(
-      labelData,
-      function(labeledResourceData)
-        local label = labeledResourceData.label
-        if label.valid then
-          label.destroy()
-        end
-      end
-    )
+function removeLabelsUnconditionally(forceName, surfaceName)
+  local allLabels = global.labeledResourcePatches[forceName]
 
-    global.labeledResourcePatches[force.name] = nil
+  if not allLabels then
+    return
   end
+
+  local labelsToRemove = allLabels[surfaceName]
+
+  table.each(
+    labelsToRemove,
+    function(labeledResourceData)
+      local label = labeledResourceData.label
+      if label.valid then
+        label.destroy()
+      end
+    end
+  )
+
+  global.labeledResourcePatches[forceName][surfaceName] = nil
 end
 
 function removeLabelsAfterChange()
   for forceName, _ in pairs(global.labeledResourcePatches) do
-    removeLabelsUnconditionally(game.forces[forceName])
+    for surfaceName, _ in pairs(global.labeledResourcePatches[forceName]) do
+      removeLabelsUnconditionally(forceName, surfaceName)
+    end
   end
 end
 
