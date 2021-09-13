@@ -21,6 +21,7 @@ local SIunits = {
   [5] = 'P',
   [6] = 'E'
 }
+
 function reinitialize()
   global.chunksToLabel = {}
   global.knownPositions = {}
@@ -28,6 +29,7 @@ function reinitialize()
   global.settings = {}
   removeLabelsAfterChange()
 end
+
 Event.register(
   Event.core_events.init,
   function()
@@ -38,6 +40,7 @@ Event.register(
     global.settings = {}
   end
 )
+
 Event.register(
   defines.events.on_runtime_mod_setting_changed,
   function(event)
@@ -46,6 +49,7 @@ Event.register(
     end
   end
 )
+
 Event.register(
   Event.core_events.configuration_changed,
   function(event)
@@ -66,6 +70,7 @@ Event.register(
     end
   end
 )
+
 Event.register(
   'resource-labels-add',
   function(event)
@@ -108,6 +113,7 @@ Event.register(
     end
   end
 )
+
 function scheduleLabelingForChunk(scheduledTick, player, surface, chunk)
   if not global.chunksToLabel[scheduledTick] then
     global.chunksToLabel[scheduledTick] = {}
@@ -148,6 +154,7 @@ Event.register(
     end
   end
 )
+
 function labelResourcesInAreaOld(player, surface, area)
   local resources =
     surface.find_entities_filtered {
