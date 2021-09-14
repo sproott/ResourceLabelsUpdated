@@ -454,7 +454,6 @@ Event.register(
   'resource-labels-remove',
   function(event)
     local player = Game.get_player(event.player_index)
-    local force = player.force
     local currentTick = event.tick
 
     removeLabels(currentTick, player)
@@ -463,6 +462,7 @@ Event.register(
 
 function removeLabels(currentTick, player)
   local force = player.force
+  local surface = player.surface
 
   if global.isLabeling[force.name] then
     local isLabeling = global.isLabeling[force.name]
@@ -471,22 +471,32 @@ function removeLabels(currentTick, player)
       local initiator = isLabeling.initiator
       player.print {'resource-labels-remove-but-not-finished-msg', initiator, isLabeling.stop - currentTick}
     else
-      removeLabelsUnconditionally(force.name, player.surface.name)
+      local removeLabelsInner = function()
+        local allLabels = global.labeledResourcePatches[force.name]
+
+        if not allLabels then
+          return
+        end
+
+        local labelsToRemove = allLabels[surface.name]
+
+        if not labelsToRemove then
+          return
+        end
+
+        removeLabelsUnconditionally(labelsToRemove)
+
+        global.labeledResourcePatches[force.name][surface.name] = nil
+      end
+
+      removeLabelsInner()
     end
   end
 end
 
-function removeLabelsUnconditionally(forceName, surfaceName)
-  local allLabels = global.labeledResourcePatches[forceName]
-
-  if not allLabels then
-    return
-  end
-
-  local labelsToRemove = allLabels[surfaceName]
-
+function removeLabelsUnconditionally(labels)
   table.each(
-    labelsToRemove,
+    labels,
     function(labeledResourceData)
       local label = labeledResourceData.label
       if label.valid then
@@ -494,16 +504,11 @@ function removeLabelsUnconditionally(forceName, surfaceName)
       end
     end
   )
-
-  global.labeledResourcePatches[forceName][surfaceName] = nil
 end
 
 function removeLabelsAfterChange()
-  for forceName, _ in pairs(global.labeledResourcePatches) do
-    for surfaceName, _ in pairs(global.labeledResourcePatches[forceName]) do
-      removeLabelsUnconditionally(forceName, surfaceName)
-    end
-  end
+  removeLabelsUnconditionally(table.flatten(global.labeledResourcePatches))
+  global.labeledResourcePatches = {}
 end
 
 -- workaround for a bug with serpent, because the stdlib Area is converted to a string when loading
