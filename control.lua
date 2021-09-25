@@ -357,10 +357,12 @@ function createLabelForResourcePatch(player, surface, patch)
 end
 
 function isAlreadyLabeled(force, surface, patch)
-  local labelData = global.labeledResourcePatches[force.name]
+  local labelData = getLabeledResourceData(force, surface)
+
   if not labelData then
     return false
   end
+
   if not global.settings['resource-labels-use-old-algorithm'] then
     return false
   end
@@ -408,6 +410,10 @@ function getResourceCount(patch)
   )
 
   return math.floor(count)
+end
+
+function getLabeledResourceData(force, surface)
+  return (global.labeledResourcePatches[force.name] or {})[surface.name]
 end
 
 function numberToSiString(number)
@@ -472,13 +478,7 @@ function removeLabels(currentTick, player)
       player.print {'resource-labels-remove-but-not-finished-msg', initiator, isLabeling.stop - currentTick}
     else
       local removeLabelsInner = function()
-        local allLabels = global.labeledResourcePatches[force.name]
-
-        if not allLabels then
-          return
-        end
-
-        local labelsToRemove = allLabels[surface.name]
+        local labelsToRemove = getLabeledResourceData(force, surface)
 
         if not labelsToRemove then
           return
@@ -499,7 +499,7 @@ function removeLabelsUnconditionally(labels)
     labels,
     function(labeledResourceData)
       local label = labeledResourceData.label
-      if label.valid then
+      if label and label.valid then
         label.destroy()
       end
     end
