@@ -12,6 +12,8 @@ local MOD = {}
 MOD.title = 'Resource Labels'
 MOD.name = 'ResourceLabelsUpdated'
 
+LABEL_DATA_FORMAT_VERSION = 1
+
 local SIunits = {
   [0] = '',
   [1] = 'k',
@@ -28,6 +30,7 @@ function reinitialize()
   global.isLabeling = {}
   global.settings = {}
   removeLabelsAfterChange()
+  global.labelDataFormatVersion = LABEL_DATA_FORMAT_VERSION
 end
 
 Event.register(
@@ -38,6 +41,7 @@ Event.register(
     global.labeledResourcePatches = {}
     global.isLabeling = {}
     global.settings = {}
+    global.labelDataFormatVersion = LABEL_DATA_FORMAT_VERSION
   end
 )
 
@@ -507,8 +511,24 @@ function removeLabelsUnconditionally(labels)
 end
 
 function removeLabelsAfterChange()
-  removeLabelsUnconditionally(table.flatten(global.labeledResourcePatches))
+  local patchesToRemove = {}
+  if not global.labelDataFormatVersion then
+    patchesToRemove = flattenDict(global.labeledResourcePatches, 1)
+  elseif global.labelDataFormatVersion == 1 then
+    patchesToRemove = flattenDict(global.labeledResourcePatches, 2)
+  end
+
+  removeLabelsUnconditionally(patchesToRemove)
   global.labeledResourcePatches = {}
+end
+
+function flattenDict(tbl, levels)
+  local result = tbl
+  for _ = 1, levels, 1 do
+    result = table.flatten(table.values(result), 1)
+  end
+
+  return result
 end
 
 -- workaround for a bug with serpent, because the stdlib Area is converted to a string when loading
