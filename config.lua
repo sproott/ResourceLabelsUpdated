@@ -275,10 +275,10 @@ end
 
 -- Pyanodon's Petroleum Handling
 if script.active_mods['pypetroleumhandling'] then
-  addFluid('natural-gas-1', 'Small Natural Gas', 'natural-gas')
-  addFluid('natural-gas-2', 'Medium Natural Gas', 'natural-gas')
-  addFluid('natural-gas-3', 'Big Natural Gas', 'natural-gas')
-  addFluid('natural-gas-4', 'Massive Natural Gas', 'natural-gas')
+  addFluid('natural-gas-mk01', 'Small Natural Gas', 'natural-gas')
+  addFluid('natural-gas-mk02', 'Medium Natural Gas', 'natural-gas')
+  addFluid('natural-gas-mk03', 'Big Natural Gas', 'natural-gas')
+  addFluid('natural-gas-mk04', 'Massive Natural Gas', 'natural-gas')
   addFluid('oil-mk01', 'Small Oil Patch', 'crude-oil')
   addFluid('oil-mk02', 'Medium Oil Patch', 'crude-oil')
   addFluid('oil-mk03', 'Big Oil Patch', 'crude-oil')
