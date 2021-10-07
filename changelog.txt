@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.10
-Date: 25.09.2021
+Date: 07.10.2021
   Bugfixes:
     - Better, backwards compatible removing of labels
   Features:
