@@ -525,7 +525,16 @@ end
 function flattenDict(tbl, levels)
   local result = tbl
   for _ = 1, levels, 1 do
-    result = table.flatten(table.values(result), 1)
+    result =
+      table.flatten(
+      table.map(
+        result,
+        function(dict)
+          return table.values(dict)
+        end
+      ),
+      1
+    )
   end
 
   return result
