@@ -213,6 +213,16 @@ if script.active_mods['IceOre'] then
   addItem('ice-ore', 'Ice', 'ice-ore')
 end
 
+if script.active_mods['IndustrialRevolution'] then
+  addItem('tin-ore', 'Tin', 'tin-ore')
+  addItem('gold-ore', 'Gold', 'gold-ore')
+  addItem('iron-gem-ore', 'Iron Gem', 'iron-gem-ore', false)
+  addItem('copper-gem-ore', 'Copper Gem', 'copper-gem-ore', false)
+  addItem('gold-gem-ore', 'Gold Gem', 'gold-gem-ore', false)
+  addItem('tin-gem-ore', 'Tin Gem', 'tin-gem-ore', false)
+  addItem('coal-gem-ore', 'Coal Gem', 'coal-gem-ore', false)
+end
+
 -- Krastorio 2
 if script.active_mods['Krastorio2'] then
   addItem('rare-metals', 'Rare Metals', 'rare-metals')
