@@ -149,6 +149,11 @@ if script.active_mods['bzzirconium'] then
   addItem('zircon', 'Zircon', 'zircon')
 end
 
+if script.active_mods['bzcarbon'] then
+  addItem('diamond', 'Diamond', 'diamond')
+  addItem('graphite', 'Graphite', 'graphite')
+end
+
 -- Dark Matter Replicators
 if script.active_mods['dark-matter-replicators-18'] then
   addItem('tenemut', 'Tenemut', 'tenemut')
