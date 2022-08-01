@@ -154,6 +154,10 @@ if script.active_mods['bzcarbon'] then
   addItem('graphite', 'Graphite', 'graphite')
 end
 
+if script.active_mods['bzaluminum'] then
+  addItem('aluminum-ore', 'Aluminum', 'aluminum-ore')
+end
+
 -- Dark Matter Replicators
 if script.active_mods['dark-matter-replicators-18'] then
   addItem('tenemut', 'Tenemut', 'tenemut')
