@@ -249,11 +249,9 @@ if script.active_mods['Clowns-Extended-Minerals'] then
   addItem('clowns-ore6', 'Sanguinate', 'clowns-ore6')
   addItem('clowns-ore7', 'Elionagate', 'clowns-ore7')
   addItem('clowns-ore8', 'Meta-Garnierite', 'clowns-ore8')
-  addItem('clowns-ore9', 'Meta-Garnierite', 'clowns-ore9')
-  addItem('clowns-ore10', 'Meta-Garnierite', 'clowns-ore10')
+  addItem('clowns-ore9', 'Nova-Leucoxene', 'clowns-ore9')
   addItem('clowns-resource1', 'Alluvium', 'clowns-resource1')
   addItem('clowns-resource2', 'Oil Sand', 'clowns-resource2')
-  addItem('clowns-resource3', 'Crystal', 'gem-ore')
 
   addInfiniteItem('clowns-ore1')
   addInfiniteItem('clowns-ore2')
@@ -264,7 +262,6 @@ if script.active_mods['Clowns-Extended-Minerals'] then
   addInfiniteItem('clowns-ore7')
   addInfiniteItem('clowns-ore8')
   addInfiniteItem('clowns-ore9')
-  addInfiniteItem('clowns-ore10')
   addInfiniteItem('clowns-resource1')
   addInfiniteItem('clowns-resource2')
 end
