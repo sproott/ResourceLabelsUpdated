@@ -158,6 +158,14 @@ if script.active_mods['bzaluminum'] then
   addItem('aluminum-ore', 'Aluminum', 'aluminum-ore')
 end
 
+if script.active_mods['bzgas'] then
+  addFluid('gas', 'Natural Gas', 'gas')
+end
+
+if script.active_mods['bztin'] then
+  addItem('tin-ore', 'Tin', 'tin-ore')
+end
+
 -- Dark Matter Replicators
 if script.active_mods['dark-matter-replicators-18'] then
   addItem('tenemut', 'Tenemut', 'tenemut')
